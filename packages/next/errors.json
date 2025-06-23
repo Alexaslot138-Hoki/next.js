@@ -771,5 +771,7 @@
   "770": "createParamsFromClient should not be called in a runtime prerender.",
   "771": "\\`%s\\` was called during a runtime prerender. Next.js should be preventing %s from being included in server components statically, but did not in this case.",
   "772": "FetchStrategy.PPRRuntime should never be used when `experimental.clientSegmentCache` is disabled",
-  "773": "Missing workStore in createPrerenderParamsForClientSegment"
+  "773": "Missing workStore in createPrerenderParamsForClientSegment",
+  "774": "expected a result to be returned",
+  "775": "expected a page response, got %s"
 }
