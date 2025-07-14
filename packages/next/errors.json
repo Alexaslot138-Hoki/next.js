@@ -771,5 +771,10 @@
   "770": "createParamsFromClient should not be called in a runtime prerender.",
   "771": "\\`%s\\` was called during a runtime prerender. Next.js should be preventing %s from being included in server components statically, but did not in this case.",
   "772": "FetchStrategy.PPRRuntime should never be used when `experimental.clientSegmentCache` is disabled",
-  "773": "Missing workStore in createPrerenderParamsForClientSegment"
+  "773": "Missing workStore in createPrerenderParamsForClientSegment",
+  "774": "Invariant: page postponed without cache components being enabled",
+  "775": "createPrerenderPathname cannot be called with the prerender-legacy work unit type.",
+  "776": "\\`experimental.ppr\\` cannot be set to \"incremental\" as cache components does not support it. Please remove it from %s.",
+  "777": "Invariant: cache components cannot be enabled in export mode",
+  "778": "\\`experimental.ppr\\` and \\`experimental.cacheComponents\\` cannot be set to different values. Please remove \\`experimental.ppr\\` from %s."
 }
