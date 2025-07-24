@@ -253,10 +253,13 @@ export function getResolveRoutes(
     async function checkTrue() {
       const pathname = parsedUrl.pathname || '/'
 
+      console.log('checkTrue init', { pathname })
+
       if (checkLocaleApi(pathname)) {
         return
       }
       if (!invokedOutputs?.has(pathname)) {
+        console.log('invokedOutputs', { pathname })
         const output = await fsChecker.getItem(pathname)
 
         if (output) {
@@ -292,6 +295,9 @@ export function getResolveRoutes(
         const params = route.match(localeResult.pathname)
 
         if (params) {
+          console.log('checkTrue params', {
+            pathname: addPathPrefix(route.page, config.basePath || ''),
+          })
           const pageOutput = await fsChecker.getItem(
             addPathPrefix(route.page, config.basePath || '')
           )
@@ -443,6 +449,7 @@ export function getResolveRoutes(
           if (invokedOutputs?.has(pathname) || checkLocaleApi(pathname)) {
             return
           }
+          console.log('check_fs', { pathname })
           const output = await fsChecker.getItem(pathname)
 
           if (

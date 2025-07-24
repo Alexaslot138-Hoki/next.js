@@ -75,6 +75,7 @@ import type { PageExtensions } from './page-extensions-type'
 import type { MappedPages } from './build-context'
 import { PAGE_TYPES } from '../lib/page-types'
 import { isAppPageRoute } from '../lib/is-app-page-route'
+import { copyFile, mkdir } from 'fs/promises'
 
 export function sortByPageExts(pageExtensions: PageExtensions) {
   return (a: string, b: string) => {
@@ -241,6 +242,7 @@ export async function createPagesMapping({
   const isAppRoute = pagesType === 'app'
   const pages: MappedPages = {}
   const promises = pagePaths.map<Promise<void>>(async (pagePath) => {
+    console.log({ pagePath })
     // Do not process .d.ts files as routes
     if (pagePath.endsWith('.d.ts') && pageExtensions.includes('ts')) {
       return
@@ -266,6 +268,11 @@ export async function createPagesMapping({
     )
 
     let route = pagesType === 'app' ? normalizeMetadataRoute(pageKey) : pageKey
+
+    if (route.endsWith('/__static_file__')) {
+      console.log('entries', { route, normalizedPath })
+      return
+    }
 
     if (
       pagesType === 'app' &&
@@ -333,6 +340,42 @@ export async function createPagesMapping({
       return {}
     }
   }
+}
+
+export async function copyMetadataStaticFiles({
+  distDir,
+  pagePaths,
+  appDir,
+  pagesType,
+  pageExtensions,
+}: {
+  distDir: string
+  pagePaths: string[]
+  appDir: string
+  pagesType: PAGE_TYPES
+  pageExtensions: PageExtensions
+}) {
+  if (pagesType !== PAGE_TYPES.APP) {
+    return
+  }
+
+  const serverDir = join(distDir, 'server')
+  const promises = pagePaths.map<Promise<void>>(async (pagePath) => {
+    const pageKey = getPageFromPath(pagePath, pageExtensions)
+    const route = normalizeMetadataRoute(pageKey)
+
+    if (!route.endsWith('/__static_file__')) {
+      return
+    }
+
+    const filePath = join(appDir, pagePath)
+    const targetPath = join(serverDir, 'app', pagePath)
+
+    await mkdir(dirname(targetPath), { recursive: true })
+    await copyFile(filePath, targetPath)
+  })
+
+  await Promise.all(promises)
 }
 
 export interface CreateEntrypointsParams {
