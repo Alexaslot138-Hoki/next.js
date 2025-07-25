@@ -1052,6 +1052,7 @@ export default async function build(
         dir,
         dev: false,
         debugPrerender,
+        reactProductionProfiling,
       })
 
       logStartInfo({
