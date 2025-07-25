@@ -446,19 +446,17 @@ describe('app-dir - server source maps', () => {
         expect(cliOutput).toContain(
           '' +
             '\nError: module-evaluation' +
-            // TODO(veil): Should map to no name like you'd get with native stacks without a bundler.
-            '\n    at {module evaluation} (app/module-evaluation/module.js:1:22)' +
+            '\n    at app/module-evaluation/module.js:1:22' +
             // TODO(veil): Added frames from bundler should be sourcemapped (https://linear.app/vercel/issue/NDX-509/)
-            '\n    at {module evaluation} (app/module-evaluation/page.js:1:1)' +
-            '\n    at {module evaluation} (.next'
+            '\n    at app/module-evaluation/page.js:1:1' +
+            '\n    at .next'
         )
       } else {
         expect(cliOutput).toContain(
           '' +
             '\nError: module-evaluation' +
-            // TODO(veil): Should map to no name like you'd get with native stacks without a bundler.
             // TODO(veil): Location should be sourcemapped
-            '\n    at eval (app/module-evaluation/module.js:1:22)' +
+            '\n    at app/module-evaluation/module.js:1:22' +
             // TODO(veil): Added frames from bundler should be sourcemapped (https://linear.app/vercel/issue/NDX-509/)
             '\n    at <unknown> (rsc)/.'
         )
@@ -476,13 +474,13 @@ describe('app-dir - server source maps', () => {
            "description": "module-evaluation",
            "environmentLabel": "Prerender",
            "label": "Console Error",
-           "source": "app/module-evaluation/module.js (1:22) @ {module evaluation}
+           "source": "app/module-evaluation/module.js (1:22)
          > 1 | export const error = new Error('module-evaluation')
              |                      ^",
            "stack": [
-             "{module evaluation} app/module-evaluation/module.js (1:22)",
-             "{module evaluation} app/module-evaluation/page.js (1:1)",
-             "{module evaluation} app/module-evaluation/page.js (6:1)",
+             "app/module-evaluation/module.js (1:22)",
+             "app/module-evaluation/page.js (1:1)",
+             "app/module-evaluation/page.js (6:1)",
              "<FIXME-next-dist-dir>",
              "Page <anonymous>",
            ],

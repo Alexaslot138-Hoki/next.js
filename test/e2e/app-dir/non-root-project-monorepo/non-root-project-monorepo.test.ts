@@ -89,7 +89,7 @@ describe('non-root-project-monorepo', () => {
         if (isTurbopack) {
           // TODO the function name should be hidden
           expect(await getRedboxSource(browser)).toMatchInlineSnapshot(`
-           "app/separate-file.ts (1:7) @ {module evaluation}
+           "app/separate-file.ts (1:7)
 
            > 1 | throw new Error('Expected error')
                |       ^
@@ -97,7 +97,7 @@ describe('non-root-project-monorepo', () => {
           `)
           expect(await getRedboxCallStack(browser)).toMatchInlineSnapshot(`
            [
-             "{module evaluation} app/separate-file.ts (1:7)",
+             "app/separate-file.ts (1:7)",
              "innerArrowFunction app/source-maps-rsc/page.tsx (13:28)",
              "innerFunction app/source-maps-rsc/page.tsx (10:3)",
              "Page app/source-maps-rsc/page.tsx (4:5)",
@@ -106,7 +106,7 @@ describe('non-root-project-monorepo', () => {
         } else {
           // TODO the function name is incorrect
           expect(await getRedboxSource(browser)).toMatchInlineSnapshot(`
-           "app/separate-file.ts (1:11) @ eval
+           "app/separate-file.ts (1:11)
 
            > 1 | throw new Error('Expected error')
                |           ^
@@ -134,7 +134,7 @@ describe('non-root-project-monorepo', () => {
         if (isTurbopack) {
           // TODO the function name should be hidden
           expect(await getRedboxSource(browser)).toMatchInlineSnapshot(`
-           "app/separate-file.ts (1:7) @ {module evaluation}
+           "app/separate-file.ts (1:7)
 
            > 1 | throw new Error('Expected error')
                |       ^
@@ -142,7 +142,7 @@ describe('non-root-project-monorepo', () => {
           `)
           expect(await getRedboxCallStack(browser)).toMatchInlineSnapshot(`
            [
-             "{module evaluation} app/separate-file.ts (1:7)",
+             "app/separate-file.ts (1:7)",
              "innerArrowFunction app/source-maps-ssr/page.tsx (15:28)",
              "innerFunction app/source-maps-ssr/page.tsx (12:3)",
              "Page app/source-maps-ssr/page.tsx (6:5)",
@@ -151,7 +151,7 @@ describe('non-root-project-monorepo', () => {
         } else {
           // TODO the function name should be hidden
           expect(await getRedboxSource(browser)).toMatchInlineSnapshot(`
-            "app/separate-file.ts (1:7) @ eval
+            "app/separate-file.ts (1:7)
 
             > 1 | throw new Error('Expected error')
                 |       ^
@@ -178,7 +178,7 @@ describe('non-root-project-monorepo', () => {
         if (isTurbopack) {
           // TODO the function name should be hidden
           expect(await getRedboxSource(browser)).toMatchInlineSnapshot(`
-           "app/separate-file.ts (1:7) @ {module evaluation}
+           "app/separate-file.ts (1:7)
 
            > 1 | throw new Error('Expected error')
                |       ^
@@ -186,7 +186,7 @@ describe('non-root-project-monorepo', () => {
           `)
           expect(await getRedboxCallStack(browser)).toMatchInlineSnapshot(`
            [
-             "{module evaluation} app/separate-file.ts (1:7)",
+             "app/separate-file.ts (1:7)",
              "innerArrowFunction app/source-maps-client/page.tsx (16:28)",
              "innerFunction app/source-maps-client/page.tsx (13:3)",
              "effectCallback app/source-maps-client/page.tsx (7:5)",
@@ -195,7 +195,7 @@ describe('non-root-project-monorepo', () => {
         } else {
           // TODO the function name should be hidden
           expect(await getRedboxSource(browser)).toMatchInlineSnapshot(`
-            "app/separate-file.ts (1:7) @ eval
+            "app/separate-file.ts (1:7)
 
             > 1 | throw new Error('Expected error')
                 |       ^

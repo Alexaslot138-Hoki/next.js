@@ -48,7 +48,7 @@ describe('use-cache-hanging-inputs', () => {
 
         if (isTurbopack) {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/search-params/page.tsx (3:16) @ {module evaluation}
+           "app/search-params/page.tsx (3:16)
 
              1 | 'use cache'
              2 |
@@ -63,7 +63,7 @@ describe('use-cache-hanging-inputs', () => {
     at __TURBOPACK__module__evaluation__`)
         } else {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/search-params/page.tsx (3:16) @ eval
+           "app/search-params/page.tsx (3:16)
 
              1 | 'use cache'
              2 |
@@ -102,7 +102,7 @@ describe('use-cache-hanging-inputs', () => {
 
         if (isTurbopack) {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/search-params-caught/page.tsx (1:1) @ {module evaluation}
+           "app/search-params-caught/page.tsx (1:1)
 
            > 1 | async function getSearchParam({
                | ^
@@ -165,7 +165,7 @@ describe('use-cache-hanging-inputs', () => {
 
         if (isTurbopack) {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/uncached-promise/page.tsx (10:13) @ {module evaluation}
+           "app/uncached-promise/page.tsx (10:13)
 
               8 | }
               9 |
@@ -180,7 +180,7 @@ describe('use-cache-hanging-inputs', () => {
     at __TURBOPACK__module__evaluation__`)
         } else {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/uncached-promise/page.tsx (10:13) @ eval
+           "app/uncached-promise/page.tsx (10:13)
 
               8 | }
               9 |
@@ -219,7 +219,7 @@ describe('use-cache-hanging-inputs', () => {
 
         if (isTurbopack) {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/uncached-promise-nested/page.tsx (16:1) @ {module evaluation}
+           "app/uncached-promise-nested/page.tsx (16:1)
 
              14 | }
              15 |
@@ -234,7 +234,7 @@ describe('use-cache-hanging-inputs', () => {
     at __TURBOPACK__module__evaluation__`)
         } else {
           expect(errorSource).toMatchInlineSnapshot(`
-           "app/uncached-promise-nested/page.tsx (16:1) @ eval
+           "app/uncached-promise-nested/page.tsx (16:1)
 
              14 | }
              15 |
@@ -274,7 +274,7 @@ describe('use-cache-hanging-inputs', () => {
 
         if (isTurbopack) {
           expect(errorSource).toMatchInlineSnapshot(`
-            "app/bound-args/page.tsx (13:15) @ {module evaluation}
+            "app/bound-args/page.tsx (13:15)
 
               11 |   const uncachedDataPromise = fetchUncachedData()
               12 |
@@ -289,7 +289,7 @@ describe('use-cache-hanging-inputs', () => {
     at __TURBOPACK__module__evaluation__`)
         } else {
           expect(errorSource).toMatchInlineSnapshot(`
-            "app/bound-args/page.tsx (13:15) @ eval
+            "app/bound-args/page.tsx (13:15)
 
               11 |   const uncachedDataPromise = fetchUncachedData()
               12 |
