@@ -1448,8 +1448,8 @@ pub async fn get_source_map_rope(
             "file" => {
                 let path = match url.to_file_path() {
                     Ok(path) => path.to_string_lossy().into(),
-                    Err(error) => {
-                        bail!("Failed to convert file URL to file path: {error:?}");
+                    Err(_) => {
+                        bail!("Failed to convert file URL to file path: {url}");
                     }
                 };
                 let module = url.query_pairs().find(|(k, _)| k == "id");
