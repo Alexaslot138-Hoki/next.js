@@ -95,11 +95,10 @@ function createModuleObject(id: ModuleId): Module {
   }
 }
 
-enum BindingTag {
-  Getter = 0,
-  GetterSetter = 1,
-  Value = 2,
-}
+type BindingTag = 0 | 1 | 2
+const BindingTag_Getter = 0 as BindingTag
+const BindingTag_GetterSetter = 1 as BindingTag
+const BindingTag_Value = 2 as BindingTag
 
 // an arbitrary sequence of bindings as
 // - a prop name
@@ -120,20 +119,20 @@ function esm(exports: Exports, bindings: EsmBindings) {
     const propName = bindings[i++] as string
     const tag = bindings[i++] as BindingTag
     switch (tag) {
-      case BindingTag.Getter:
+      case BindingTag_Getter:
         defineProp(exports, propName, {
           get: bindings[i++] as () => unknown,
           enumerable: true,
         })
         break
-      case BindingTag.GetterSetter:
+      case BindingTag_GetterSetter:
         defineProp(exports, propName, {
           get: bindings[i++] as () => unknown,
           set: bindings[i++] as (v: unknown) => void,
           enumerable: true,
         })
         break
-      case BindingTag.Value:
+      case BindingTag_Value:
         defineProp(exports, propName, {
           value: bindings[i++],
           enumerable: true,
@@ -141,7 +140,7 @@ function esm(exports: Exports, bindings: EsmBindings) {
         })
         break
       default:
-        invariant(tag, () => `unexpected tag: ${tag}`)
+        throw new Error(`unexpected tag: ${tag}`)
         break
     }
   }
@@ -212,7 +211,7 @@ function dynamicExport(
   id: ModuleId | undefined
 ) {
   let module: Module
-  let exports: typeof this.e
+  let exports: Exports
   if (id != null) {
     module = getOverwrittenModule(this.c, id)
     exports = module.exports
@@ -289,7 +288,7 @@ function interopEsm(
     current = getProto(current)
   ) {
     for (const key of Object.getOwnPropertyNames(current)) {
-      bindings.push(key, BindingTag.Getter, createGetter(raw, key))
+      bindings.push(key, BindingTag_Getter, createGetter(raw, key))
       if (defaultLocation === -1 && key === 'default') {
         defaultLocation = bindings.length - 1
       }
@@ -303,7 +302,7 @@ function interopEsm(
     if (defaultLocation >= 0) {
       bindings[defaultLocation] = () => raw
     } else {
-      bindings.push('default', BindingTag.Value, raw)
+      bindings.push('default', BindingTag_Value, raw)
     }
   }
 
