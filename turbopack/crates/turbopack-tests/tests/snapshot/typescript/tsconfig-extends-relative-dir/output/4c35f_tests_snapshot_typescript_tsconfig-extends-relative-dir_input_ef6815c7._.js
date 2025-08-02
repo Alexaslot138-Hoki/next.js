@@ -5,6 +5,7 @@
 
 __turbopack_context__.s([
     "prop",
+    0,
     ()=>prop
 ]);
 const prop = 1;

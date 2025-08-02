@@ -5,6 +5,7 @@
 
 __turbopack_context__.s([
     "a",
+    1,
     ()=>dog,
     (new_dog)=>dog = new_dog
 ]);

@@ -41,9 +41,15 @@ function getOverwrittenModule(moduleCache, id) {
         [REEXPORTED_OBJECTS]: undefined
     };
 }
+var BindingTag = /*#__PURE__*/ function(BindingTag) {
+    BindingTag[BindingTag["Getter"] = 0] = "Getter";
+    BindingTag[BindingTag["GetterSetter"] = 1] = "GetterSetter";
+    BindingTag[BindingTag["Value"] = 2] = "Value";
+    return BindingTag;
+}(BindingTag || {});
 /**
  * Adds the getters to the exports object.
- */ function esm(exports, getters) {
+ */ function esm(exports, bindings) {
     defineProp(exports, '__esModule', {
         value: true
     });
@@ -51,29 +57,40 @@ function getOverwrittenModule(moduleCache, id) {
         value: 'Module'
     });
     let i = 0;
-    while(i < getters.length){
-        const propName = getters[i++];
-        // TODO(luke.sandberg): we could support raw values here, but would need a discriminator beyond 'not a function'
-        const getter = getters[i++];
-        if (typeof getters[i] === 'function') {
-            // a setter
-            defineProp(exports, propName, {
-                get: getter,
-                set: getters[i++],
-                enumerable: true
-            });
-        } else {
-            defineProp(exports, propName, {
-                get: getter,
-                enumerable: true
-            });
+    while(i < bindings.length){
+        const propName = bindings[i++];
+        const tag = bindings[i++];
+        switch(tag){
+            case 0:
+                defineProp(exports, propName, {
+                    get: bindings[i++],
+                    enumerable: true
+                });
+                break;
+            case 1:
+                defineProp(exports, propName, {
+                    get: bindings[i++],
+                    set: bindings[i++],
+                    enumerable: true
+                });
+                break;
+            case 2:
+                defineProp(exports, propName, {
+                    value: bindings[i++],
+                    enumerable: true,
+                    writable: false
+                });
+                break;
+            default:
+                invariant(tag, ()=>`unexpected tag: ${tag}`);
+                break;
         }
     }
     Object.seal(exports);
 }
 /**
  * Makes the module an ESM with exports
- */ function esmExport(getters, id) {
+ */ function esmExport(bindings, id) {
     let module;
     let exports;
     if (id != null) {
@@ -84,7 +101,7 @@ function getOverwrittenModule(moduleCache, id) {
         exports = this.e;
     }
     module.namespaceObject = exports;
-    esm(exports, getters);
+    esm(exports, bindings);
 }
 contextPrototype.s = esmExport;
 function ensureDynamicExports(module, exports) {
@@ -117,11 +134,14 @@ function ensureDynamicExports(module, exports) {
 /**
  * Dynamically exports properties from an object
  */ function dynamicExport(object, id) {
-    let module = this.m;
-    let exports = this.e;
+    let module;
+    let exports;
     if (id != null) {
         module = getOverwrittenModule(this.c, id);
         exports = module.exports;
+    } else {
+        module = this.m;
+        exports = this.e;
     }
     ensureDynamicExports(module, exports);
     if (typeof object === 'object' && object !== null) {
@@ -164,14 +184,13 @@ function createGetter(obj, key) {
  *   * `false`: will have the raw module as default export
  *   * `true`: will have the default property as default export
  */ function interopEsm(raw, ns, allowExportDefault) {
-    const getters = [];
-    // The index of the `default` export if any
+    const bindings = [];
     let defaultLocation = -1;
     for(let current = raw; (typeof current === 'object' || typeof current === 'function') && !LEAF_PROTOTYPES.includes(current); current = getProto(current)){
         for (const key of Object.getOwnPropertyNames(current)){
-            getters.push(key, createGetter(raw, key));
+            bindings.push(key, 0, createGetter(raw, key));
             if (defaultLocation === -1 && key === 'default') {
-                defaultLocation = getters.length - 1;
+                defaultLocation = bindings.length - 1;
             }
         }
     }
@@ -180,12 +199,12 @@ function createGetter(obj, key) {
     if (!(allowExportDefault && defaultLocation >= 0)) {
         // Replace the binding with one for the namespace itself in order to preserve iteration order.
         if (defaultLocation >= 0) {
-            getters[defaultLocation] = ()=>raw;
+            bindings[defaultLocation] = ()=>raw;
         } else {
-            getters.push('default', ()=>raw);
+            bindings.push('default', 2, raw);
         }
     }
-    esm(ns, getters);
+    esm(ns, bindings);
     return ns;
 }
 function createNS(raw) {

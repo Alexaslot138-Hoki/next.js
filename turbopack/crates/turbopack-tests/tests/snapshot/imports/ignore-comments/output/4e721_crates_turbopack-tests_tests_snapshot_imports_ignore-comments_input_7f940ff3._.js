@@ -24,6 +24,7 @@ __turbopack_context__.v("/static/ignore-worker.c7cb9893.cjs");}),
 
 __turbopack_context__.s([
     "foo",
+    0,
     ()=>foo
 ]);
 const __TURBOPACK__import$2e$meta__ = {

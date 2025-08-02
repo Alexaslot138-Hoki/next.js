@@ -16,6 +16,7 @@ console.log(Foo, [].includes('foo'));
 
 __turbopack_context__.s([
     "_",
+    0,
     ()=>_
 ]);
 function _() {

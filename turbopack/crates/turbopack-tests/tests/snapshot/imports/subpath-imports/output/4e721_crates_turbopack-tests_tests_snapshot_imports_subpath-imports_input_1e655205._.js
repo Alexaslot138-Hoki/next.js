@@ -5,6 +5,7 @@
 
 __turbopack_context__.s([
     "default",
+    0,
     ()=>__TURBOPACK__default__export__
 ]);
 const __TURBOPACK__default__export__ = 'foo';
@@ -14,6 +15,7 @@ const __TURBOPACK__default__export__ = 'foo';
 
 __turbopack_context__.s([
     "default",
+    0,
     ()=>__TURBOPACK__default__export__
 ]);
 const __TURBOPACK__default__export__ = 'dep';
@@ -23,6 +25,7 @@ const __TURBOPACK__default__export__ = 'dep';
 
 __turbopack_context__.s([
     "default",
+    0,
     ()=>__TURBOPACK__default__export__
 ]);
 const __TURBOPACK__default__export__ = 'pat';
@@ -32,6 +35,7 @@ const __TURBOPACK__default__export__ = 'pat';
 
 __turbopack_context__.s([
     "default",
+    0,
     ()=>__TURBOPACK__default__export__
 ]);
 const __TURBOPACK__default__export__ = 'import';
